@@ -40,41 +40,64 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex flex-col min-h-screen font-sans">
-      {/* Top Header with contact info */}
-      <div className="bg-primary text-primary-foreground py-2 hidden md:block">
-        <div className="container mx-auto flex justify-between items-center px-4">
-          <div className="flex items-center space-x-6 text-sm">
-            <span className="flex items-center"><Phone className="w-4 h-4 mr-2" /> +91-7014235836</span>
-            <span className="flex items-center"><Mail className="w-4 h-4 mr-2" /> enterprisessethsawaliya@gmail.com</span>
-            <span className="flex items-center"><MapPin className="w-4 h-4 mr-2" /> Jaipur, Rajasthan</span>
+      {/* Top Header with contact info - Enhanced Responsive */}
+      <div className="bg-primary text-primary-foreground py-2 md:py-3">
+        <div className="container mx-auto px-4">
+          {/* Mobile: Stacked layout */}
+          <div className="flex flex-col md:hidden space-y-2 text-xs">
+            <div className="flex items-center justify-center">
+              <Phone className="w-3 h-3 mr-1" /> 
+              <a href="tel:+917014235836" className="hover:underline">+91-7014235836</a>
+            </div>
+            <div className="flex items-center justify-center">
+              <Mail className="w-3 h-3 mr-1" /> 
+              <a href="mailto:enterprisessethsawaliya@gmail.com" className="hover:underline truncate max-w-[200px]">
+                enterprisessethsawaliya@gmail.com
+              </a>
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="secondary" size="sm" asChild>
-              <Link to="/contact">Get a Quote</Link>
-            </Button>
+          
+          {/* Desktop: Horizontal layout */}
+          <div className="hidden md:flex justify-between items-center">
+            <div className="flex items-center space-x-4 lg:space-x-6 text-sm">
+              <a href="tel:+917014235836" className="flex items-center hover:text-secondary transition-colors">
+                <Phone className="w-4 h-4 mr-2" /> +91-7014235836
+              </a>
+              <a href="mailto:enterprisessethsawaliya@gmail.com" className="flex items-center hover:text-secondary transition-colors">
+                <Mail className="w-4 h-4 mr-2" /> enterprisessethsawaliya@gmail.com
+              </a>
+              <span className="flex items-center">
+                <MapPin className="w-4 h-4 mr-2" /> Jaipur, Rajasthan
+              </span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="secondary" size="sm" asChild>
+                <Link to="/contact">Get a Quote</Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Navigation - Enhanced */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
-        <div className="container mx-auto flex h-20 items-center justify-between px-4">
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all group-hover:scale-110">
-              <Sun className="text-background w-7 h-7" />
+      {/* Main Navigation - Enhanced Responsive */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 shadow-sm">
+        <div className="container mx-auto flex h-16 md:h-20 items-center justify-between px-4">
+          <Link to="/" className="flex items-center space-x-2 md:space-x-3 group">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-secondary rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all group-hover:scale-110">
+              <Sun className="text-background w-5 h-5 md:w-7 md:h-7" />
             </div>
-            <span className="font-black text-2xl tracking-tight hidden md:inline-block">
-              Seth Sawalia <span className="text-secondary">Solar</span>
+            <span className="font-black text-lg md:text-2xl tracking-tight">
+              Seth Sawalia <span className="text-secondary hidden sm:inline">Solar</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                className={`px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                   location.pathname === item.path 
                     ? 'bg-primary text-primary-foreground shadow-md' 
                     : 'text-foreground/70 hover:text-foreground hover:bg-muted'
@@ -88,10 +111,10 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
             {profile?.role === 'admin' && (
               <Link
                 to="/admin"
-                className="px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-accent text-accent-foreground hover:bg-accent/90 flex items-center gap-2"
+                className="px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-accent text-accent-foreground hover:bg-accent/90 flex items-center gap-2"
               >
                 <Shield className="w-4 h-4" />
-                Admin
+                <span className="hidden xl:inline">Admin</span>
               </Link>
             )}
             
@@ -104,7 +127,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 className="ml-2"
               >
                 <LogOut className="w-4 h-4 mr-2" />
-                Logout
+                <span className="hidden xl:inline">Logout</span>
               </Button>
             ) : (
               <Button
@@ -115,21 +138,26 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
               >
                 <Link to="/login">
                   <LogIn className="w-4 h-4 mr-2" />
-                  Login
+                  <span className="hidden xl:inline">Login</span>
                 </Link>
               </Button>
             )}
           </nav>
 
           {/* Mobile Nav */}
-          <div className="flex items-center md:hidden">
-             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+          <div className="flex items-center gap-2 lg:hidden">
+            {/* Mobile CTA Button */}
+            <Button variant="secondary" size="sm" asChild className="text-xs md:hidden">
+              <Link to="/contact">Quote</Link>
+            </Button>
+            
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu className="h-6 w-6" />
+                <Button variant="ghost" size="icon" className="lg:hidden">
+                  <Menu className="h-5 w-5 md:h-6 md:w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px]">
+              <SheetContent side="right" className="w-[280px] sm:w-[300px]">
                 <nav className="flex flex-col space-y-4 mt-8">
                   {navItems.map((item) => (
                     <Link
@@ -199,90 +227,205 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </main>
 
-      {/* Footer - Enhanced */}
-      <footer className="bg-foreground text-background py-16 relative overflow-hidden">
+      {/* Footer - Enhanced and Fully Functional */}
+      <footer className="bg-foreground text-background py-12 md:py-16 relative overflow-hidden">
         {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 md:w-96 md:h-96 bg-accent/5 rounded-full blur-3xl"></div>
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12">
+            {/* Company Info */}
+            <div className="space-y-4 md:space-y-6">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center shadow-lg">
-                  <Sun className="text-background w-7 h-7" />
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-secondary rounded-xl flex items-center justify-center shadow-lg">
+                  <Sun className="text-background w-5 h-5 md:w-7 md:h-7" />
                 </div>
-                <span className="font-black text-2xl">
+                <span className="font-black text-xl md:text-2xl">
                   Seth Sawalia <span className="text-secondary">Solar</span>
                 </span>
               </div>
               <p className="text-sm text-background/80 leading-relaxed">
                 Leading provider of sustainable solar energy solutions in Jaipur. We specialize in residential, commercial, and maintenance services.
               </p>
+              
+              {/* Social Media Links */}
               <div className="flex gap-3">
-                {['📘', '🐦', '📷', '💼'].map((emoji, i) => (
-                  <button 
-                    key={i}
-                    className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-all hover:scale-110 text-xl"
-                  >
-                    {emoji}
-                  </button>
-                ))}
+                <a 
+                  href="https://facebook.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-all hover:scale-110 text-xl"
+                  aria-label="Facebook"
+                >
+                  📘
+                </a>
+                <a 
+                  href="https://twitter.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-all hover:scale-110 text-xl"
+                  aria-label="Twitter"
+                >
+                  🐦
+                </a>
+                <a 
+                  href="https://instagram.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-all hover:scale-110 text-xl"
+                  aria-label="Instagram"
+                >
+                  📷
+                </a>
+                <a 
+                  href="https://linkedin.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-all hover:scale-110 text-xl"
+                  aria-label="LinkedIn"
+                >
+                  💼
+                </a>
               </div>
             </div>
+            
+            {/* Quick Links */}
             <div>
-              <h4 className="font-bold text-lg mb-6 text-secondary">Quick Links</h4>
-              <ul className="space-y-3 text-sm text-background/80">
+              <h4 className="font-bold text-lg mb-4 md:mb-6 text-secondary">Quick Links</h4>
+              <ul className="space-y-2 md:space-y-3 text-sm text-background/80">
                 {navItems.map((item) => (
                   <li key={item.path}>
-                    <Link to={item.path} className="hover:text-secondary transition-colors flex items-center gap-2 group">
+                    <Link 
+                      to={item.path} 
+                      className="hover:text-secondary transition-colors flex items-center gap-2 group"
+                    >
                       <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 -ml-6 group-hover:ml-0 transition-all" />
                       {item.name}
                     </Link>
                   </li>
                 ))}
+                {profile?.role === 'admin' && (
+                  <li>
+                    <Link 
+                      to="/admin" 
+                      className="hover:text-secondary transition-colors flex items-center gap-2 group"
+                    >
+                      <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 -ml-6 group-hover:ml-0 transition-all" />
+                      Admin Dashboard
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
+            
+            {/* Services */}
             <div>
-              <h4 className="font-bold text-lg mb-6 text-secondary">Services</h4>
-              <ul className="space-y-3 text-sm text-background/80">
-                <li className="hover:text-secondary transition-colors cursor-pointer">Residential Rooftop</li>
-                <li className="hover:text-secondary transition-colors cursor-pointer">Commercial Solar</li>
-                <li className="hover:text-secondary transition-colors cursor-pointer">Panel Maintenance</li>
-                <li className="hover:text-secondary transition-colors cursor-pointer">System Design</li>
-                <li className="hover:text-secondary transition-colors cursor-pointer">Energy Consultation</li>
+              <h4 className="font-bold text-lg mb-4 md:mb-6 text-secondary">Services</h4>
+              <ul className="space-y-2 md:space-y-3 text-sm text-background/80">
+                <li>
+                  <Link to="/services" className="hover:text-secondary transition-colors">
+                    Residential Rooftop
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services" className="hover:text-secondary transition-colors">
+                    Commercial Solar
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services" className="hover:text-secondary transition-colors">
+                    Panel Maintenance
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services" className="hover:text-secondary transition-colors">
+                    System Design
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services" className="hover:text-secondary transition-colors">
+                    Energy Consultation
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services" className="hover:text-secondary transition-colors">
+                    Battery Storage
+                  </Link>
+                </li>
               </ul>
             </div>
+            
+            {/* Contact Info */}
             <div>
-              <h4 className="font-bold text-lg mb-6 text-secondary">Contact Info</h4>
-              <ul className="space-y-4 text-sm text-background/80">
+              <h4 className="font-bold text-lg mb-4 md:mb-6 text-secondary">Contact Info</h4>
+              <ul className="space-y-3 md:space-y-4 text-sm text-background/80">
                 <li className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 mt-1 shrink-0 text-secondary" /> 
-                  <span>Jaipur, Rajasthan, India</span>
+                  <a 
+                    href="https://maps.google.com/?q=Jaipur,Rajasthan,India" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-secondary transition-colors"
+                  >
+                    Jaipur, Rajasthan, India
+                  </a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 shrink-0 text-secondary" /> 
-                  <span>+91-7014235836</span>
+                  <a 
+                    href="tel:+917014235836" 
+                    className="hover:text-secondary transition-colors"
+                  >
+                    +91-7014235836
+                  </a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 shrink-0 text-secondary" /> 
-                  <span>+91-9928567308</span>
+                  <a 
+                    href="tel:+919928567308" 
+                    className="hover:text-secondary transition-colors"
+                  >
+                    +91-9928567308
+                  </a>
                 </li>
-                <li className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 shrink-0 text-secondary" /> 
-                  <span className="break-all">enterprisessethsawaliya@gmail.com</span>
+                <li className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 mt-1 shrink-0 text-secondary" /> 
+                  <a 
+                    href="mailto:enterprisessethsawaliya@gmail.com" 
+                    className="hover:text-secondary transition-colors break-all"
+                  >
+                    enterprisessethsawaliya@gmail.com
+                  </a>
                 </li>
               </ul>
             </div>
           </div>
           
-          <div className="pt-8 border-t border-background/20">
+          {/* Footer Bottom */}
+          <div className="pt-6 md:pt-8 border-t border-background/20">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/60">
-              <p>© 2026 Seth Sawalia Solar Company. All rights reserved.</p>
-              <div className="flex gap-6">
-                <a href="#" className="hover:text-secondary transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-secondary transition-colors">Terms of Service</a>
-                <a href="#" className="hover:text-secondary transition-colors">Sitemap</a>
+              <p className="text-center md:text-left">
+                © 2026 Seth Sawalia Solar Company. All rights reserved.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+                <Link to="/about" className="hover:text-secondary transition-colors">
+                  About Us
+                </Link>
+                <Link to="/contact" className="hover:text-secondary transition-colors">
+                  Contact
+                </Link>
+                <Link to="/resources" className="hover:text-secondary transition-colors">
+                  Resources
+                </Link>
+                <a 
+                  href="https://supabase.com/dashboard/project/aiewsoqlfaobrcqtdezd" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-secondary transition-colors"
+                >
+                  Sitemap
+                </a>
               </div>
             </div>
           </div>

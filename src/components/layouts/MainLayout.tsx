@@ -3,7 +3,17 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Sun, Phone, Mail, MapPin, Shield, LogOut, LogIn, ArrowRight } from 'lucide-react';
+import { 
+  Menu, 
+  Sun, 
+  Phone, 
+  Mail, 
+  MapPin, 
+  Shield, 
+  LogOut, 
+  LogIn, 
+  ArrowRight 
+} from 'lucide-react';
 
 interface NavItem {
   name: string;

@@ -1,3 +1,7 @@
+# Welcome to Your Miaoda Project
+Miaoda Application Link URL
+    URL:https://medo.dev/projects/app-9meeli3bcv7l
+
 # Seth Sawalia Solar Company Website
 
 A modern, full-featured solar company website with real-time admin dashboard built with React, TypeScript, Tailwind CSS, and Supabase.

@@ -45,12 +45,28 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      toast.success("Quote request submitted successfully! We'll contact you within 24 hours.");
-    }, 1500);
+    // Save to database
+    import('@/db/api').then(({ contactQueriesAPI }) => {
+      contactQueriesAPI.create({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        property_type: formData.propertyType,
+        system_size: formData.systemSize,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        roof_type: formData.roofType,
+        message: formData.message
+      }).then(() => {
+        setIsSubmitting(false);
+        setSubmitted(true);
+        toast.success("Quote request submitted successfully! We'll contact you within 24 hours.");
+      }).catch((error) => {
+        console.error('Failed to submit quote:', error);
+        setIsSubmitting(false);
+        toast.error('Failed to submit quote. Please try again.');
+      });
+    });
   };
 
   const updateFormData = (field: string, value: string) => {

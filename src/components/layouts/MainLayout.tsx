@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Sun, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
+import { Menu, Sun, Phone, Mail, MapPin, Shield, LogOut, LogIn, ArrowRight } from 'lucide-react';
 
 interface NavItem {
   name: string;
@@ -21,6 +22,11 @@ const navItems: NavItem[] = [
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { user, profile, signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <div className="flex flex-col min-h-screen font-sans">
@@ -67,6 +73,42 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 {item.name}
               </Link>
             ))}
+            
+            {/* Admin Link - Only visible to admins */}
+            {profile?.role === 'admin' && (
+              <Link
+                to="/admin"
+                className="px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-accent text-accent-foreground hover:bg-accent/90 flex items-center gap-2"
+              >
+                <Shield className="w-4 h-4" />
+                Admin
+              </Link>
+            )}
+            
+            {/* Login/Logout */}
+            {user ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleLogout}
+                className="ml-2"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="ml-2"
+              >
+                <Link to="/login">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Login
+                </Link>
+              </Button>
+            )}
           </nav>
 
           {/* Mobile Nav */}
@@ -91,9 +133,50 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                       {item.name}
                     </Link>
                   ))}
-                  <Button variant="secondary" className="mt-4" asChild onClick={() => setIsMenuOpen(false)}>
-                    <Link to="/contact">Get a Quote</Link>
-                  </Button>
+                  
+                  {/* Admin Link for mobile */}
+                  {profile?.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="text-lg transition-colors text-accent font-bold flex items-center gap-2"
+                    >
+                      <Shield className="w-5 h-5" />
+                      Admin Panel
+                    </Link>
+                  )}
+                  
+                  <div className="pt-4 border-t space-y-3">
+                    <Button variant="secondary" className="w-full" asChild onClick={() => setIsMenuOpen(false)}>
+                      <Link to="/contact">Get a Quote</Link>
+                    </Button>
+                    
+                    {user ? (
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          handleLogout();
+                          setIsMenuOpen(false);
+                        }}
+                      >
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Logout
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        asChild
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <Link to="/login">
+                          <LogIn className="w-4 h-4 mr-2" />
+                          Login
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
                 </nav>
               </SheetContent>
             </Sheet>

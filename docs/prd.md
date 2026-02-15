@@ -3,10 +3,10 @@
 ## 1. Application Overview
 
 ### 1.1 Application Name
-Seth Sawalia Solar Company Website
+Seth Sawalia Solar Company Website with Admin Dashboard
 
 ### 1.2 Application Description
-A comprehensive website for Seth Sawalia solar company, providing information about solar energy solutions and services in Jaipur. The website will showcase the company's offerings, help potential customers understand solar solutions, and facilitate customer inquiries.
+A comprehensive website for Seth Sawalia solar company, providing information about solar energy solutions and services in Jaipur. The website will showcase the company's offerings, help potential customers understand solar solutions, and facilitate customer inquiries. Includes a real-time admin dashboard for managing all website content and customer interactions.
 
 ## 2. Core Features
 
@@ -83,6 +83,44 @@ A comprehensive website for Seth Sawalia solar company, providing information ab
   - 10 kW system: Cost ₹360,000, Production 1400-1600 units per month
 - Display system cost, monthly production, and estimated savings
 - Comparison tool for different system sizes
+
+### 2.10 Admin Dashboard
+- Admin authentication and access control
+- Real-time dashboard for managing all website content and customer interactions
+
+#### 2.10.1 Quote Management
+- View all customer quote requests in real-time
+- Filter and search quote requests
+- Update quote status
+- Respond to quote inquiries
+- Delete quote requests
+
+#### 2.10.2 Contact Query Management
+- View all contact form submissions in real-time
+- Filter and search contact queries
+- Mark queries as resolved or pending
+- Respond to customer inquiries
+- Delete contact queries
+
+#### 2.10.3 Services Management
+- Create new service offerings
+- View all services
+- Edit existing service details and images
+- Delete services
+- Reorder service display priority
+
+#### 2.10.4 Projects Management
+- Create new project entries
+- View all projects
+- Edit project details, images, and specifications
+- Delete projects
+- Manage project gallery images
+- Update project status
+
+#### 2.10.5 Real-time Updates
+- All dashboard data updates in real-time
+- Instant notifications for new quotes and contact queries
+- Live synchronization across all admin sessions
 
 ## 3. Reference
 Reference website: https://www.solarsquare.in/rooftop-solar-in-jaipur

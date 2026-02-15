@@ -26,6 +26,7 @@ A comprehensive website for Seth Sawalia solar company, providing information ab
 - Energy efficiency solutions
 - Icon images or illustrations for each service type
 - Service-specific images demonstrating each solution
+- Each service should be explorable by opening a modal with transition effect
 
 ### 2.3 Service Areas
 - Primary service location: Jaipur
@@ -38,6 +39,7 @@ A comprehensive website for Seth Sawalia solar company, providing information ab
 - Project details and specifications
 - Multiple project gallery images
 - Installation process images
+- Each project should be explorable by opening a modal with transition effect
 
 ### 2.5 Customer Testimonials
 - Customer reviews and feedback

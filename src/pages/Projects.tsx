@@ -1,160 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { MapPin, Zap, Maximize2, Sparkles, Filter, Calendar, Users, CheckCircle2, X } from 'lucide-react';
+import { projectsAPI } from '@/db/api';
+import { supabase } from '@/db/supabase';
+import type { Project } from '@/types/database';
 
 const Projects = () => {
   const [filter, setFilter] = useState('All');
-  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = ['All', 'Residential', 'Commercial', 'Industrial'];
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Modern Villa Rooftop',
-      category: 'Residential',
-      location: 'Vaishali Nagar, Jaipur',
-      capacity: '10kW',
-      image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_b5b8f641-1526-4b67-973b-00812926c35e.jpg',
-      description: 'A complete residential setup with 20 high-efficiency panels and hybrid inverter.',
-      details: {
-        completionDate: 'March 2024',
-        panelCount: 20,
-        systemType: 'Grid-Tied with Battery Backup',
-        monthlySavings: '₹12,000',
-        co2Reduction: '8 tons/year',
-        features: [
-          'High-efficiency monocrystalline panels',
-          '10kW hybrid inverter with smart monitoring',
-          'Net metering enabled',
-          '25-year performance warranty',
-          'Remote monitoring system'
-        ]
-      }
-    },
-    {
-      id: 2,
-      title: 'Textile Factory Solar Plant',
-      category: 'Industrial',
-      location: 'Sitapura Industrial Area, Jaipur',
-      capacity: '150kW',
-      image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_a7ff9711-4735-4234-8a87-041c5d6961a2.jpg',
-      description: 'Large scale industrial installation to power heavy machinery and reduce operational costs.',
-      details: {
-        completionDate: 'January 2024',
-        panelCount: 400,
-        systemType: 'Grid-Tied Commercial',
-        monthlySavings: '₹1,80,000',
-        co2Reduction: '120 tons/year',
-        features: [
-          'Industrial-grade solar panels',
-          'Multiple string inverters for reliability',
-          'Advanced monitoring and analytics',
-          'Reduced peak demand charges',
-          'ROI achieved in 4.5 years'
-        ]
-      }
-    },
-    {
-      id: 3,
-      title: 'Green Office Complex',
-      category: 'Commercial',
-      location: 'C-Scheme, Jaipur',
-      capacity: '50kW',
-      image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_88aafb43-e44c-4c98-b557-270ec434e470.jpg',
-      description: 'Integrated solar solution for a premium commercial building, including battery backup.',
-      details: {
-        completionDate: 'February 2024',
-        panelCount: 130,
-        systemType: 'Hybrid System',
-        monthlySavings: '₹60,000',
-        co2Reduction: '40 tons/year',
-        features: [
-          'Bifacial solar panels for maximum efficiency',
-          'Battery storage for power backup',
-          'Smart energy management system',
-          'LEED certification support',
-          'Real-time energy dashboard'
-        ]
-      }
-    },
-    {
-      id: 4,
-      title: 'Luxury Apartment Grid-Tie',
-      category: 'Residential',
-      location: 'Mansarovar, Jaipur',
-      capacity: '15kW',
-      image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_ea8ae656-2859-4d84-8c44-715d7f98792d.jpg',
-      description: 'Distributed rooftop solar for a multi-story residential building.',
-      details: {
-        completionDate: 'December 2023',
-        panelCount: 38,
-        systemType: 'Grid-Tied',
-        monthlySavings: '₹18,000',
-        co2Reduction: '12 tons/year',
-        features: [
-          'Distributed installation across multiple floors',
-          'Individual unit metering',
-          'Aesthetic panel mounting',
-          'Minimal maintenance design',
-          'Community solar benefits'
-        ]
-      }
-    },
-    {
-      id: 5,
-      title: 'Heritage Hotel Solar Heating',
-      category: 'Commercial',
-      location: 'Amer, Jaipur',
-      capacity: '30kW',
-      image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_dc709b9f-d2f2-400d-b875-e5c47da50c85.jpg',
-      description: 'Specialized installation for a heritage property keeping architectural aesthetics intact.',
-      details: {
-        completionDate: 'November 2023',
-        panelCount: 75,
-        systemType: 'Grid-Tied with Solar Water Heating',
-        monthlySavings: '₹35,000',
-        co2Reduction: '25 tons/year',
-        features: [
-          'Heritage-compliant installation',
-          'Integrated solar water heating',
-          'Minimal visual impact design',
-          'Tourism board approved',
-          'Energy-efficient hotel operations'
-        ]
-      }
-    },
-    {
-      id: 6,
-      title: 'Cold Storage Solar Power',
-      category: 'Industrial',
-      location: 'VKI Area, Jaipur',
-      capacity: '200kW',
-      image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_32a5364c-fc03-49a3-bfbb-468f7157dbea.jpg',
-      description: 'Critical power solution for cold storage facilities with high energy reliability.',
-      details: {
-        completionDate: 'October 2023',
-        panelCount: 520,
-        systemType: 'Grid-Tied with Backup',
-        monthlySavings: '₹2,40,000',
-        co2Reduction: '160 tons/year',
-        features: [
-          'High-capacity industrial system',
-          'Redundant power backup',
-          '24/7 monitoring and maintenance',
-          'Critical load management',
-          'Significant operational cost reduction'
-        ]
-      }
+  const loadProjects = async () => {
+    try {
+      const data = await projectsAPI.getAll();
+      setProjects(data);
+    } catch (error) {
+      console.error('Failed to load projects:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  useEffect(() => {
+    loadProjects();
+
+    // Real-time subscription
+    const channel = supabase
+      .channel('projects-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'projects' },
+        () => {
+          loadProjects();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, []);
 
   const filteredProjects = filter === 'All' 
     ? projects 
     : projects.filter(p => p.category === filter);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-20 bg-background relative overflow-hidden">
@@ -203,8 +106,8 @@ const Projects = () => {
             >
               <div className="relative aspect-video overflow-hidden">
                 <img 
-                  src={project.image} 
-                  alt={project.title}
+                  src={project.image_url || ''} 
+                  alt={project.title || ''}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -261,8 +164,8 @@ const Projects = () => {
                   <DialogHeader>
                     <div className="relative aspect-video w-full rounded-xl overflow-hidden mb-4 -mt-6 -mx-6">
                       <img 
-                        src={project.image} 
-                        alt={project.title}
+                        src={project.image_url || ''} 
+                        alt={project.title || ''}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute top-4 left-4">
@@ -290,17 +193,17 @@ const Projects = () => {
                       </div>
                       <div className="p-4 bg-secondary/10 rounded-xl text-center">
                         <Calendar className="w-6 h-6 text-secondary mx-auto mb-2" />
-                        <div className="text-lg font-bold text-secondary">{project.details.completionDate}</div>
+                        <div className="text-lg font-bold text-secondary">{project.completion_date}</div>
                         <div className="text-xs text-muted-foreground">Completed</div>
                       </div>
                       <div className="p-4 bg-accent/10 rounded-xl text-center">
                         <Sparkles className="w-6 h-6 text-accent mx-auto mb-2" />
-                        <div className="text-lg font-bold text-accent">{project.details.panelCount}</div>
+                        <div className="text-lg font-bold text-accent">{project.panel_count}</div>
                         <div className="text-xs text-muted-foreground">Solar Panels</div>
                       </div>
                       <div className="p-4 bg-primary/10 rounded-xl text-center">
                         <Users className="w-6 h-6 text-primary mx-auto mb-2" />
-                        <div className="text-lg font-bold text-primary">{project.details.systemType}</div>
+                        <div className="text-lg font-bold text-primary">{project.system_type}</div>
                         <div className="text-xs text-muted-foreground">System Type</div>
                       </div>
                     </div>
@@ -315,11 +218,11 @@ const Projects = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="p-4 bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl border-2 border-secondary/20">
                         <h5 className="font-bold text-sm text-muted-foreground mb-2">Monthly Savings</h5>
-                        <div className="text-3xl font-black text-secondary">{project.details.monthlySavings}</div>
+                        <div className="text-3xl font-black text-secondary">{project.monthly_savings}</div>
                       </div>
                       <div className="p-4 bg-gradient-to-br from-accent/10 to-accent/5 rounded-xl border-2 border-accent/20">
                         <h5 className="font-bold text-sm text-muted-foreground mb-2">CO₂ Reduction</h5>
-                        <div className="text-3xl font-black text-accent">{project.details.co2Reduction}</div>
+                        <div className="text-3xl font-black text-accent">{project.co2_reduction}</div>
                       </div>
                     </div>
 
@@ -327,7 +230,7 @@ const Projects = () => {
                     <div>
                       <h4 className="font-bold text-lg mb-4">Key Features</h4>
                       <div className="grid grid-cols-1 gap-3">
-                        {project.details.features.map((feature, index) => (
+                        {project.features?.map((feature, index) => (
                           <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
                             <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                             <span className="text-sm text-muted-foreground">{feature}</span>

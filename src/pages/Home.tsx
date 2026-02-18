@@ -38,15 +38,40 @@ const Home = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const handleHeroFormSubmit = (e: React.FormEvent) => {
+  const handleHeroFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form data
+    if (!formData.name || !formData.phone || !formData.email) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+    
     setIsSubmitting(true);
     
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const { contactQueriesAPI } = await import('@/db/api');
+      await contactQueriesAPI.create({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        property_type: null,
+        system_size: null,
+        budget: null,
+        timeline: null,
+        roof_type: null,
+        message: 'Free consultation request from homepage'
+      });
+      
       toast.success("Thank you! We'll contact you within 24 hours.");
       setFormData({ name: '', phone: '', email: '' });
-    }, 1500);
+    } catch (error: any) {
+      console.error('Failed to submit consultation request:', error);
+      const errorMessage = error?.message || 'Failed to submit request. Please try again.';
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -324,21 +349,21 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                icon: <IndianRupee className="w-10 h-10" />,
+                image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_cf603780-9b3d-49f0-8671-09ed8a22a456.jpg',
                 title: 'Massive Savings',
                 desc: 'Reduce your monthly electricity bills by up to 90% and protect yourself from rising power costs.',
                 color: 'primary',
                 gradient: 'from-primary/10 to-primary/5'
               },
               {
-                icon: <Shield className="w-10 h-10" />,
+                image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_9969a198-2753-4bf3-a89a-54d30b68208e.jpg',
                 title: 'Sustainable Energy',
                 desc: 'Help the environment by reducing carbon emissions. Go green and join the clean energy revolution.',
                 color: 'accent',
                 gradient: 'from-accent/10 to-accent/5'
               },
               {
-                icon: <Zap className="w-10 h-10" />,
+                image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_0d9a54b1-e05e-485c-952b-a022b06abd44.jpg',
                 title: 'Energy Independence',
                 desc: 'Generate your own electricity and reduce dependency on the local power grid.',
                 color: 'secondary',
@@ -350,12 +375,19 @@ const Home = () => {
                 className={`group border-none shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-background overflow-hidden relative`}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-muted rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <CardContent className="pt-8 pb-8 text-center space-y-4 relative z-10">
-                  <div className={`w-20 h-20 bg-${item.color}/10 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 text-${item.color}`}>
-                    {item.icon}
+                <CardContent className="p-0 relative z-10">
+                  <div className="relative h-48 overflow-hidden rounded-t-xl">
+                    <img 
+                      src={item.image} 
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent"></div>
                   </div>
-                  <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{item.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+                  <div className="p-6 text-center space-y-3">
+                    <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{item.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -396,35 +428,44 @@ const Home = () => {
               { 
                 title: 'Residential Solar', 
                 desc: 'Rooftop solutions tailored for Jaipur homes.',
-                icon: '🏠',
+                image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_30a7afd5-88c4-4bbd-9a56-502e9395b962.jpg',
                 color: 'from-blue-500/10 to-blue-500/5'
               },
               { 
                 title: 'Commercial Solar', 
                 desc: 'Large scale installations for businesses & industries.',
-                icon: '🏢',
+                image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_ccbe9305-0dac-4386-a79a-618d7dce559b.jpg',
                 color: 'from-green-500/10 to-green-500/5'
               },
               { 
                 title: 'Maintenance', 
                 desc: 'Periodic cleaning and performance monitoring.',
-                icon: '🔧',
+                image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_657a89aa-e076-4c7c-a1e0-6ac8fde62a9c.jpg',
                 color: 'from-orange-500/10 to-orange-500/5'
               },
               { 
                 title: 'System Design', 
                 desc: 'Expert consultation and optimized system layouts.',
-                icon: '📐',
+                image: 'https://miaoda-site-img.s3cdn.medo.dev/images/KLing_203b69e1-d609-445e-9514-023ffdd921e7.jpg',
                 color: 'from-purple-500/10 to-purple-500/5'
               }
             ].map((service, i) => (
               <div 
                 key={i} 
-                className={`group relative bg-background backdrop-blur-sm p-8 rounded-2xl border-2 border-transparent hover:border-primary transition-all duration-500 cursor-pointer hover:-translate-y-2 hover:shadow-xl`}
+                className={`group relative bg-background backdrop-blur-sm rounded-2xl border-2 border-transparent hover:border-primary transition-all duration-500 cursor-pointer hover:-translate-y-2 hover:shadow-xl overflow-hidden`}
               >
-                <div className="text-5xl mb-4 group-hover:scale-110 transition-transform">{service.icon}</div>
-                <h4 className="font-bold text-xl mb-3 group-hover:text-primary transition-colors">{service.title}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{service.desc}</p>
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
+                </div>
+                <div className="p-6 space-y-3">
+                  <h4 className="font-bold text-xl group-hover:text-primary transition-colors">{service.title}</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{service.desc}</p>
+                </div>
                 <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <ArrowRight className="w-5 h-5 text-primary" />
                 </div>

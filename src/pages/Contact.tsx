@@ -61,10 +61,11 @@ const Contact = () => {
         setIsSubmitting(false);
         setSubmitted(true);
         toast.success("Quote request submitted successfully! We'll contact you within 24 hours.");
-      }).catch((error) => {
+      }).catch((error: any) => {
         console.error('Failed to submit quote:', error);
+        const errorMessage = error?.message || 'Failed to submit quote. Please try again.';
         setIsSubmitting(false);
-        toast.error('Failed to submit quote. Please try again.');
+        toast.error(errorMessage);
       });
     });
   };

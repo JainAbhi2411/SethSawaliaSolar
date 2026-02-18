@@ -16,14 +16,12 @@ export const contactQueriesAPI = {
 
   // Create contact query (public)
   async create(query: Omit<ContactQuery, 'id' | 'status' | 'created_at' | 'updated_at'>) {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('contact_queries')
-      .insert([query])
-      .select()
-      .maybeSingle();
+      .insert([query]);
     
     if (error) throw error;
-    return data as ContactQuery;
+    return { success: true };
   },
 
   // Update contact query status (admin only)

@@ -43,6 +43,12 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Only submit if on the last step
+    if (currentStep !== totalSteps) {
+      return;
+    }
+    
     setIsSubmitting(true);
     
     // Save to database
@@ -69,6 +75,14 @@ const Contact = () => {
         toast.error(errorMessage);
       });
     });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Prevent Enter key from submitting form on steps 1 and 2
+    if (e.key === 'Enter' && currentStep < totalSteps) {
+      e.preventDefault();
+      handleNext();
+    }
   };
 
   const updateFormData = (field: string, value: string) => {
@@ -235,7 +249,7 @@ const Contact = () => {
                         <Progress value={progress} className="h-1 mt-3" />
                       </div>
 
-                      <form onSubmit={handleSubmit} className="space-y-6">
+                      <form onSubmit={handleSubmit} onKeyDown={handleKeyDown} className="space-y-6">
                         {/* Step 1: Personal Information */}
                         {currentStep === 1 && (
                           <div className="space-y-5 animate-in fade-in slide-in-from-right duration-300">

@@ -26,7 +26,7 @@ const Contact = () => {
     message: ''
   });
 
-  const totalSteps = 3;
+  const totalSteps = 4;
   const progress = (currentStep / totalSteps) * 100;
 
   const handleNext = () => {
@@ -42,6 +42,14 @@ const Contact = () => {
     if (currentStep === 2) {
       if (!formData.propertyType || !formData.systemSize) {
         toast.error('Please select property type and system size');
+        return;
+      }
+    }
+    
+    // Validate step 3
+    if (currentStep === 3) {
+      if (!formData.budget || !formData.timeline) {
+        toast.error('Please select budget and timeline');
         return;
       }
     }
@@ -242,7 +250,7 @@ const Contact = () => {
                       {/* Step Indicator */}
                       <div className="mb-6 md:mb-8">
                         <div className="flex items-center justify-between mb-4">
-                          {[1, 2, 3].map((step) => (
+                          {[1, 2, 3, 4].map((step) => (
                             <div key={step} className="flex items-center flex-1">
                               <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-sm md:text-base transition-all ${
                                 step === currentStep 
@@ -253,7 +261,7 @@ const Contact = () => {
                               }`}>
                                 {step < currentStep ? <CheckCircle2 className="w-5 h-5" /> : step}
                               </div>
-                              {step < 3 && (
+                              {step < 4 && (
                                 <div className={`flex-1 h-1 mx-2 rounded-full transition-all ${
                                   step < currentStep ? 'bg-accent' : 'bg-muted'
                                 }`}></div>
@@ -265,6 +273,7 @@ const Contact = () => {
                           <span className={currentStep === 1 ? 'text-primary font-bold' : 'text-muted-foreground'}>Personal Info</span>
                           <span className={currentStep === 2 ? 'text-primary font-bold' : 'text-muted-foreground'}>Project Details</span>
                           <span className={currentStep === 3 ? 'text-primary font-bold' : 'text-muted-foreground'}>Preferences</span>
+                          <span className={currentStep === 4 ? 'text-primary font-bold' : 'text-muted-foreground'}>Review</span>
                         </div>
                         <Progress value={progress} className="h-1 mt-3" />
                       </div>
@@ -481,6 +490,90 @@ const Contact = () => {
                                 value={formData.message}
                                 onChange={(e) => updateFormData('message', e.target.value)}
                               />
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Step 4: Review & Submit */}
+                        {currentStep === 4 && (
+                          <div className="space-y-6 animate-in fade-in slide-in-from-right duration-300">
+                            <div className="text-center mb-6">
+                              <h3 className="text-xl md:text-2xl font-bold mb-2">Review Your Information</h3>
+                              <p className="text-sm text-muted-foreground">Please review your details before submitting</p>
+                            </div>
+
+                            {/* Personal Information Summary */}
+                            <div className="bg-muted/50 rounded-xl p-4 md:p-6 space-y-4">
+                              <h4 className="font-bold text-lg flex items-center gap-2">
+                                <User className="w-5 h-5 text-primary" />
+                                Personal Information
+                              </h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Full Name</div>
+                                  <div className="font-semibold">{formData.name}</div>
+                                </div>
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Phone Number</div>
+                                  <div className="font-semibold">{formData.phone}</div>
+                                </div>
+                                <div className="md:col-span-2">
+                                  <div className="text-xs text-muted-foreground mb-1">Email Address</div>
+                                  <div className="font-semibold">{formData.email}</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Project Details Summary */}
+                            <div className="bg-muted/50 rounded-xl p-4 md:p-6 space-y-4">
+                              <h4 className="font-bold text-lg flex items-center gap-2">
+                                <Zap className="w-5 h-5 text-secondary" />
+                                Project Details
+                              </h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Property Type</div>
+                                  <div className="font-semibold capitalize">{formData.propertyType || 'Not specified'}</div>
+                                </div>
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">System Size</div>
+                                  <div className="font-semibold">{formData.systemSize || 'Not specified'}</div>
+                                </div>
+                                <div className="md:col-span-2">
+                                  <div className="text-xs text-muted-foreground mb-1">Roof Type</div>
+                                  <div className="font-semibold">{formData.roofType || 'Not specified'}</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Preferences Summary */}
+                            <div className="bg-muted/50 rounded-xl p-4 md:p-6 space-y-4">
+                              <h4 className="font-bold text-lg flex items-center gap-2">
+                                <Calendar className="w-5 h-5 text-accent" />
+                                Preferences
+                              </h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Budget Range</div>
+                                  <div className="font-semibold">{formData.budget || 'Not specified'}</div>
+                                </div>
+                                <div>
+                                  <div className="text-xs text-muted-foreground mb-1">Installation Timeline</div>
+                                  <div className="font-semibold">{formData.timeline || 'Not specified'}</div>
+                                </div>
+                                {formData.message && (
+                                  <div className="md:col-span-2">
+                                    <div className="text-xs text-muted-foreground mb-1">Additional Information</div>
+                                    <div className="font-semibold">{formData.message}</div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="bg-primary/10 border-2 border-primary/20 rounded-xl p-4 text-center">
+                              <p className="text-sm text-muted-foreground">
+                                By submitting this form, you agree to our privacy policy and consent to being contacted by our team.
+                              </p>
                             </div>
                           </div>
                         )}

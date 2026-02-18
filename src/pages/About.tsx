@@ -17,7 +17,7 @@ const About = () => {
                 Pioneering Solar Energy in the Pink City
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Seth Sawalia Solar Company was founded with a single vision: to make clean, sustainable energy accessible to every household and business in Jaipur. With over a decade of experience, we have grown from a small team of enthusiasts to one of Rajasthan's leading solar EPC providers.
+                Seth sawaliya Solar Company was founded with a single vision: to make clean, sustainable energy accessible to every household and business in Jaipur. With over a decade of experience, we have grown from a small team of enthusiasts to one of Rajasthan's leading solar EPC providers.
               </p>
               <p className="text-muted-foreground">
                 We believe that the future of energy is decentralized and renewable. Our team combines technical expertise with deep local knowledge to deliver solar systems that are perfectly optimized for Jaipur's unique climatic conditions.
@@ -30,7 +30,7 @@ const About = () => {
               <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl">
                 <img 
                   src="https://miaoda-site-img.s3cdn.medo.dev/images/KLing_b466d77b-6d5b-472b-9a32-e4a7e6c9eb15.jpg" 
-                  alt="Seth Sawalia Solar Installation Team" 
+                  alt="Seth sawaliya Solar Installation Team" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -96,7 +96,7 @@ const About = () => {
                 />
             </div>
             <div className="space-y-8 order-1 md:order-2">
-              <h2 className="text-3xl font-bold">Why Seth Sawalia Solar?</h2>
+              <h2 className="text-3xl font-bold">Why Seth sawaliya Solar?</h2>
               <div className="space-y-6">
                 {[
                   { title: 'Local Expertise', desc: 'Deep understanding of Jaipur\'s grid infrastructure and subsidy processes.' },

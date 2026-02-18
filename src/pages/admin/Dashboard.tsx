@@ -129,7 +129,7 @@ const AdminDashboard = () => {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl md:text-4xl font-black mb-2">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome to Seth Sawalia Solar Admin Panel</p>
+        <p className="text-muted-foreground">Welcome to Seth sawaliya Solar Admin Panel</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

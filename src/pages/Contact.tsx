@@ -30,6 +30,8 @@ const Contact = () => {
   const progress = (currentStep / totalSteps) * 100;
 
   const handleNext = () => {
+    console.log('handleNext called, currentStep:', currentStep);
+    
     // Validate step 1
     if (currentStep === 1) {
       if (!formData.name || !formData.phone || !formData.email) {
@@ -55,6 +57,7 @@ const Contact = () => {
     }
     
     if (currentStep < totalSteps) {
+      console.log('Advancing to step:', currentStep + 1);
       setCurrentStep(currentStep + 1);
     }
   };
@@ -68,11 +71,15 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log('handleSubmit called, currentStep:', currentStep, 'totalSteps:', totalSteps);
+    
     // Only submit if on the last step
     if (currentStep !== totalSteps) {
+      console.log('Not on last step, preventing submission');
       return;
     }
     
+    console.log('Submitting form...');
     setIsSubmitting(true);
     
     // Save to database
@@ -106,9 +113,10 @@ const Contact = () => {
     const target = e.target as HTMLElement;
     const isInputField = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
     
-    // Prevent Enter key from submitting form on steps 1 and 2
+    // Prevent Enter key from submitting form on steps 1, 2, and 3
     if (e.key === 'Enter' && currentStep < totalSteps && isInputField) {
       e.preventDefault();
+      console.log('Enter key pressed, calling handleNext');
       handleNext();
     }
   };

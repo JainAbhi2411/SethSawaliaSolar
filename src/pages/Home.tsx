@@ -539,7 +539,7 @@ const Home = () => {
               { 
                 name: 'Rajesh Sharma', 
                 loc: 'Malviya Nagar, Jaipur', 
-                comment: 'Installed a 5kW system. My electricity bill came down from ₹8,000 to ₹400. Seth Sawalia team was very professional.',
+                comment: 'Installed a 5kW system. My electricity bill came down from ₹8,000 to ₹400. Seth sawaliya team was very professional.',
                 rating: 5,
                 avatar: '👨'
               },

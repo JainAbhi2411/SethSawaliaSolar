@@ -88,7 +88,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
               <Sun className="text-background w-5 h-5 md:w-7 md:h-7" />
             </div>
             <span className="font-black text-lg md:text-2xl tracking-tight">
-              Seth Sawalia <span className="text-secondary hidden sm:inline">Solar</span>
+              Seth Sawaliya <span className="text-secondary hidden sm:inline">Solar</span>
             </span>
           </Link>
 
@@ -243,7 +243,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                   <Sun className="text-background w-5 h-5 md:w-7 md:h-7" />
                 </div>
                 <span className="font-black text-xl md:text-2xl">
-                  Seth Sawalia <span className="text-secondary">Solar</span>
+                  Seth Sawaliya <span className="text-secondary">Solar</span>
                 </span>
               </div>
               <p className="text-sm text-background/80 leading-relaxed">
@@ -407,7 +407,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="pt-6 md:pt-8 border-t border-background/20">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/60">
               <p className="text-center md:text-left">
-                © 2026 Seth Sawalia Solar Company. All rights reserved.
+                © 2026 Seth sawaliya Solar Company. All rights reserved.
               </p>
               <div className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <Link to="/about" className="hover:text-secondary transition-colors">

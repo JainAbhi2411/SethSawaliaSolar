@@ -8,7 +8,6 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import AdminLayout from './components/layouts/AdminLayout';
 import AdminDashboard from './pages/admin/Dashboard';
-import ContactQueriesAdmin from './pages/admin/ContactQueries';
 import ConsultationRequestsAdmin from './pages/admin/ConsultationRequests';
 import QuoteRequestsAdmin from './pages/admin/QuoteRequests';
 import ServicesAdmin from './pages/admin/Services';
@@ -80,11 +79,6 @@ const routes: RouteConfig[] = [
         name: 'Quote Requests',
         path: 'quotes',
         element: <QuoteRequestsAdmin />
-      },
-      {
-        name: 'Contact Queries (Old)',
-        path: 'queries',
-        element: <ContactQueriesAdmin />
       },
       {
         name: 'Services',

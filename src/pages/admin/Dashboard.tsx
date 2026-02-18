@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquare, Briefcase, FolderKanban, Users, TrendingUp, FileText } from 'lucide-react';
-import { contactQueriesAPI, consultationRequestsAPI, quoteRequestsAPI, servicesAPI, projectsAPI, profilesAPI } from '@/db/api';
+import { consultationRequestsAPI, quoteRequestsAPI, servicesAPI, projectsAPI, profilesAPI } from '@/db/api';
 import { supabase } from '@/db/supabase';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
     consultationRequests: 0,
     quoteRequests: 0,
-    oldQueries: 0,
     services: 0,
     projects: 0,
     users: 0,
@@ -19,10 +18,9 @@ const AdminDashboard = () => {
 
   const loadStats = async () => {
     try {
-      const [consultations, quotes, oldQueries, services, projects, users] = await Promise.all([
+      const [consultations, quotes, services, projects, users] = await Promise.all([
         consultationRequestsAPI.getAll(),
         quoteRequestsAPI.getAll(),
-        contactQueriesAPI.getAll(),
         servicesAPI.getAll(),
         projectsAPI.getAll(),
         profilesAPI.getAll()
@@ -34,7 +32,6 @@ const AdminDashboard = () => {
       setStats({
         consultationRequests: consultations.length,
         quoteRequests: quotes.length,
-        oldQueries: oldQueries.length,
         services: services.length,
         projects: projects.length,
         users: users.length,
@@ -62,11 +59,6 @@ const AdminDashboard = () => {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'quote_requests' }, loadStats)
       .subscribe();
 
-    const queriesChannel = supabase
-      .channel('dashboard-queries')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_queries' }, loadStats)
-      .subscribe();
-
     const servicesChannel = supabase
       .channel('dashboard-services')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, loadStats)
@@ -80,7 +72,6 @@ const AdminDashboard = () => {
     return () => {
       consultationsChannel.unsubscribe();
       quotesChannel.unsubscribe();
-      queriesChannel.unsubscribe();
       servicesChannel.unsubscribe();
       projectsChannel.unsubscribe();
     };

@@ -1,5 +1,99 @@
 import { supabase } from './supabase';
-import type { ContactQuery, Service, Project, Profile } from '@/types/database';
+import type { ContactQuery, Service, Project, Profile, ConsultationRequest, QuoteRequest } from '@/types/database';
+
+// Consultation Requests API
+export const consultationRequestsAPI = {
+  // Get all consultation requests (admin only)
+  async getAll() {
+    const { data, error } = await supabase
+      .from('consultation_requests')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data as ConsultationRequest[];
+  },
+
+  // Create consultation request (public)
+  async create(request: Omit<ConsultationRequest, 'id' | 'status' | 'created_at' | 'updated_at'>) {
+    const { error } = await supabase
+      .from('consultation_requests')
+      .insert([request]);
+    
+    if (error) throw error;
+    return { success: true };
+  },
+
+  // Update consultation request status (admin only)
+  async updateStatus(id: string, status: ConsultationRequest['status']) {
+    const { data, error } = await supabase
+      .from('consultation_requests')
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .maybeSingle();
+    
+    if (error) throw error;
+    return data as ConsultationRequest;
+  },
+
+  // Delete consultation request (admin only)
+  async delete(id: string) {
+    const { error } = await supabase
+      .from('consultation_requests')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+  }
+};
+
+// Quote Requests API
+export const quoteRequestsAPI = {
+  // Get all quote requests (admin only)
+  async getAll() {
+    const { data, error } = await supabase
+      .from('quote_requests')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data as QuoteRequest[];
+  },
+
+  // Create quote request (public)
+  async create(request: Omit<QuoteRequest, 'id' | 'status' | 'created_at' | 'updated_at'>) {
+    const { error } = await supabase
+      .from('quote_requests')
+      .insert([request]);
+    
+    if (error) throw error;
+    return { success: true };
+  },
+
+  // Update quote request status (admin only)
+  async updateStatus(id: string, status: QuoteRequest['status']) {
+    const { data, error } = await supabase
+      .from('quote_requests')
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .maybeSingle();
+    
+    if (error) throw error;
+    return data as QuoteRequest;
+  },
+
+  // Delete quote request (admin only)
+  async delete(id: string) {
+    const { error } = await supabase
+      .from('quote_requests')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+  }
+};
 
 // Contact Queries API
 export const contactQueriesAPI = {

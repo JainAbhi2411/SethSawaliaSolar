@@ -1,36 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MessageSquare, Briefcase, FolderKanban, Users, TrendingUp } from 'lucide-react';
-import { contactQueriesAPI, servicesAPI, projectsAPI, profilesAPI } from '@/db/api';
+import { MessageSquare, Briefcase, FolderKanban, Users, TrendingUp, FileText } from 'lucide-react';
+import { contactQueriesAPI, consultationRequestsAPI, quoteRequestsAPI, servicesAPI, projectsAPI, profilesAPI } from '@/db/api';
 import { supabase } from '@/db/supabase';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
-    queries: 0,
+    consultationRequests: 0,
+    quoteRequests: 0,
+    oldQueries: 0,
     services: 0,
     projects: 0,
     users: 0,
-    newQueries: 0
+    newConsultations: 0,
+    newQuotes: 0
   });
   const [loading, setLoading] = useState(true);
 
   const loadStats = async () => {
     try {
-      const [queries, services, projects, users] = await Promise.all([
+      const [consultations, quotes, oldQueries, services, projects, users] = await Promise.all([
+        consultationRequestsAPI.getAll(),
+        quoteRequestsAPI.getAll(),
         contactQueriesAPI.getAll(),
         servicesAPI.getAll(),
         projectsAPI.getAll(),
         profilesAPI.getAll()
       ]);
 
-      const newQueries = queries.filter(q => q.status === 'new').length;
+      const newConsultations = consultations.filter(c => c.status === 'new').length;
+      const newQuotes = quotes.filter(q => q.status === 'new').length;
 
       setStats({
-        queries: queries.length,
+        consultationRequests: consultations.length,
+        quoteRequests: quotes.length,
+        oldQueries: oldQueries.length,
         services: services.length,
         projects: projects.length,
         users: users.length,
-        newQueries
+        newConsultations,
+        newQuotes
       });
     } catch (error) {
       console.error('Failed to load stats:', error);
@@ -43,6 +52,16 @@ const AdminDashboard = () => {
     loadStats();
 
     // Real-time subscriptions
+    const consultationsChannel = supabase
+      .channel('dashboard-consultations')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'consultation_requests' }, loadStats)
+      .subscribe();
+
+    const quotesChannel = supabase
+      .channel('dashboard-quotes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'quote_requests' }, loadStats)
+      .subscribe();
+
     const queriesChannel = supabase
       .channel('dashboard-queries')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_queries' }, loadStats)
@@ -59,6 +78,8 @@ const AdminDashboard = () => {
       .subscribe();
 
     return () => {
+      consultationsChannel.unsubscribe();
+      quotesChannel.unsubscribe();
       queriesChannel.unsubscribe();
       servicesChannel.unsubscribe();
       projectsChannel.unsubscribe();
@@ -67,33 +88,41 @@ const AdminDashboard = () => {
 
   const statCards = [
     {
-      title: 'Contact Queries',
-      value: stats.queries,
+      title: 'Consultation Requests',
+      value: stats.consultationRequests,
       icon: MessageSquare,
       color: 'text-primary',
       bgColor: 'bg-primary/10',
-      badge: stats.newQueries > 0 ? `${stats.newQueries} new` : null
+      badge: stats.newConsultations > 0 ? `${stats.newConsultations} new` : null
+    },
+    {
+      title: 'Quote Requests',
+      value: stats.quoteRequests,
+      icon: FileText,
+      color: 'text-secondary',
+      bgColor: 'bg-secondary/10',
+      badge: stats.newQuotes > 0 ? `${stats.newQuotes} new` : null
     },
     {
       title: 'Services',
       value: stats.services,
       icon: Briefcase,
-      color: 'text-secondary',
-      bgColor: 'bg-secondary/10'
+      color: 'text-accent',
+      bgColor: 'bg-accent/10'
     },
     {
       title: 'Projects',
       value: stats.projects,
       icon: FolderKanban,
-      color: 'text-accent',
-      bgColor: 'bg-accent/10'
+      color: 'text-primary',
+      bgColor: 'bg-primary/10'
     },
     {
       title: 'Users',
       value: stats.users,
       icon: Users,
-      color: 'text-primary',
-      bgColor: 'bg-primary/10'
+      color: 'text-secondary',
+      bgColor: 'bg-secondary/10'
     }
   ];
 
@@ -191,7 +220,7 @@ const AdminDashboard = () => {
             </div>
             <div className="flex justify-between items-center py-2 border-b">
               <span className="text-sm text-muted-foreground">Total Records</span>
-              <span className="text-sm font-semibold">{stats.queries + stats.services + stats.projects}</span>
+              <span className="text-sm font-semibold">{stats.consultationRequests + stats.quoteRequests + stats.services + stats.projects}</span>
             </div>
             <div className="flex justify-between items-center py-2">
               <span className="text-sm text-muted-foreground">Active Users</span>

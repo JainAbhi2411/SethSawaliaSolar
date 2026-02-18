@@ -46,17 +46,18 @@ const Contact = () => {
     setIsSubmitting(true);
     
     // Save to database
-    import('@/db/api').then(({ contactQueriesAPI }) => {
-      contactQueriesAPI.create({
+    import('@/db/api').then(({ quoteRequestsAPI }) => {
+      quoteRequestsAPI.create({
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
-        property_type: formData.propertyType,
-        system_size: formData.systemSize,
-        budget: formData.budget,
-        timeline: formData.timeline,
-        roof_type: formData.roofType,
-        message: formData.message
+        property_type: formData.propertyType || null,
+        system_size: formData.systemSize || null,
+        budget: formData.budget || null,
+        timeline: formData.timeline || null,
+        roof_type: formData.roofType || null,
+        message: formData.message || null,
+        source: 'contact_form'
       }).then(() => {
         setIsSubmitting(false);
         setSubmitted(true);

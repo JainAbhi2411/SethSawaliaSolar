@@ -26,6 +26,33 @@ export interface ContactQuery {
   updated_at: string;
 }
 
+export interface ConsultationRequest {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  status: 'new' | 'contacted' | 'completed' | 'cancelled';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface QuoteRequest {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  property_type: string | null;
+  system_size: string | null;
+  budget: string | null;
+  timeline: string | null;
+  roof_type: string | null;
+  message: string | null;
+  source: 'contact_form' | 'chatbot';
+  status: 'new' | 'contacted' | 'completed' | 'cancelled';
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Service {
   id: string;
   title: string;

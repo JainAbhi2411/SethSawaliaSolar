@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { MessageCircle, X, Send, Bot, User, Sparkles, Sun, TrendingUp, Shield } from 'lucide-react';
-import { contactQueriesAPI } from '@/db/api';
 import { toast } from 'sonner';
 
 interface Message {
@@ -20,6 +19,9 @@ interface QuoteData {
   phone: string;
   propertyType: string;
   systemSize: string;
+  budget: string;
+  timeline: string;
+  roofType: string;
   message: string;
 }
 
@@ -35,6 +37,9 @@ const Chatbot = () => {
     phone: '',
     propertyType: '',
     systemSize: '',
+    budget: '',
+    timeline: '',
+    roofType: '',
     message: ''
   });
   const [isCollectingQuote, setIsCollectingQuote] = useState(false);
@@ -244,27 +249,67 @@ const Chatbot = () => {
       case 5: // System Size
         setQuoteData(prev => ({ ...prev, systemSize: value }));
         setConversationStep(6);
-        addBotMessage("Almost done! Any specific requirements or questions? (Or type 'none')");
+        addBotMessage(
+          "Great! What's your budget range?\n\n" +
+          "• Under ₹2 Lakhs\n" +
+          "• ₹2-3 Lakhs\n" +
+          "• ₹3-5 Lakhs\n" +
+          "• ₹5-10 Lakhs\n" +
+          "• Above ₹10 Lakhs\n" +
+          "• Flexible"
+        );
         break;
-      case 6: // Message
-        setQuoteData(prev => ({ ...prev, message: value === 'none' ? '' : value }));
-        submitQuote({ ...quoteData, message: value === 'none' ? '' : value });
+      case 6: // Budget
+        setQuoteData(prev => ({ ...prev, budget: value }));
+        setConversationStep(7);
+        addBotMessage(
+          "Perfect! When are you planning to install?\n\n" +
+          "• Immediate (Within 1 month)\n" +
+          "• 1-3 months\n" +
+          "• 3-6 months\n" +
+          "• 6+ months\n" +
+          "• Just exploring"
+        );
+        break;
+      case 7: // Timeline
+        setQuoteData(prev => ({ ...prev, timeline: value }));
+        setConversationStep(8);
+        addBotMessage(
+          "Almost there! What type of roof do you have?\n\n" +
+          "• Flat roof\n" +
+          "• Sloped/Pitched roof\n" +
+          "• Metal roof\n" +
+          "• Tile roof\n" +
+          "• Not sure"
+        );
+        break;
+      case 8: // Roof Type
+        setQuoteData(prev => ({ ...prev, roofType: value }));
+        setConversationStep(9);
+        addBotMessage("Last question! Any specific requirements or questions? (Or type 'none')");
+        break;
+      case 9: // Message
+        const finalData = { ...quoteData, roofType: quoteData.roofType, message: value === 'none' ? '' : value };
+        setQuoteData(finalData);
+        submitQuote(finalData);
         break;
     }
   };
 
   const submitQuote = async (data: QuoteData) => {
     try {
-      await contactQueriesAPI.create({
+      const { quoteRequestsAPI } = await import('@/db/api');
+      await quoteRequestsAPI.create({
         name: data.name,
         email: data.email,
         phone: data.phone,
-        property_type: data.propertyType,
-        system_size: data.systemSize,
-        budget: null,
-        timeline: null,
-        roof_type: null,
-        message: data.message || 'Quote request from chatbot'
+        property_type: data.propertyType || null,
+        system_size: data.systemSize || null,
+        budget: data.budget || null,
+        timeline: data.timeline || null,
+        roof_type: data.roofType || null,
+        message: data.message || null,
+        source: 'chatbot'
       });
 
       addBotMessage(
@@ -284,6 +329,9 @@ const Chatbot = () => {
         phone: '',
         propertyType: '',
         systemSize: '',
+        budget: '',
+        timeline: '',
+        roofType: '',
         message: ''
       });
     } catch (error: any) {

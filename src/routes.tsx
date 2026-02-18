@@ -9,6 +9,8 @@ import Login from './pages/Login';
 import AdminLayout from './components/layouts/AdminLayout';
 import AdminDashboard from './pages/admin/Dashboard';
 import ContactQueriesAdmin from './pages/admin/ContactQueries';
+import ConsultationRequestsAdmin from './pages/admin/ConsultationRequests';
+import QuoteRequestsAdmin from './pages/admin/QuoteRequests';
 import ServicesAdmin from './pages/admin/Services';
 import ProjectsAdmin from './pages/admin/Projects';
 import UsersAdmin from './pages/admin/Users';
@@ -70,7 +72,17 @@ const routes: RouteConfig[] = [
         element: <AdminDashboard />
       },
       {
-        name: 'Contact Queries',
+        name: 'Consultation Requests',
+        path: 'consultations',
+        element: <ConsultationRequestsAdmin />
+      },
+      {
+        name: 'Quote Requests',
+        path: 'quotes',
+        element: <QuoteRequestsAdmin />
+      },
+      {
+        name: 'Contact Queries (Old)',
         path: 'queries',
         element: <ContactQueriesAdmin />
       },

@@ -50,17 +50,11 @@ const Home = () => {
     setIsSubmitting(true);
     
     try {
-      const { contactQueriesAPI } = await import('@/db/api');
-      await contactQueriesAPI.create({
+      const { consultationRequestsAPI } = await import('@/db/api');
+      await consultationRequestsAPI.create({
         name: formData.name,
         phone: formData.phone,
-        email: formData.email,
-        property_type: null,
-        system_size: null,
-        budget: null,
-        timeline: null,
-        roof_type: null,
-        message: 'Free consultation request from homepage'
+        email: formData.email
       });
       
       toast.success("Thank you! We'll contact you within 24 hours.");

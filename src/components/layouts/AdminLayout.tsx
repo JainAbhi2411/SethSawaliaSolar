@@ -3,7 +3,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { AdminGuard } from '@/components/common/AdminGuard';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, MessageSquare, Briefcase, FolderKanban, Users, LogOut, Sun, Menu, X } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, Briefcase, FolderKanban, Users, LogOut, Sun, Menu, X, FileText } from 'lucide-react';
 import { useState } from 'react';
 
 const AdminLayout = () => {
@@ -18,7 +18,8 @@ const AdminLayout = () => {
 
   const navItems = [
     { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { to: '/admin/queries', icon: MessageSquare, label: 'Contact Queries' },
+    { to: '/admin/consultations', icon: MessageSquare, label: 'Consultation Requests' },
+    { to: '/admin/quotes', icon: FileText, label: 'Quote Requests' },
     { to: '/admin/services', icon: Briefcase, label: 'Services' },
     { to: '/admin/projects', icon: FolderKanban, label: 'Projects' },
     { to: '/admin/users', icon: Users, label: 'Users' },

@@ -30,6 +30,22 @@ const Contact = () => {
   const progress = (currentStep / totalSteps) * 100;
 
   const handleNext = () => {
+    // Validate step 1
+    if (currentStep === 1) {
+      if (!formData.name || !formData.phone || !formData.email) {
+        toast.error('Please fill in all required fields');
+        return;
+      }
+    }
+    
+    // Validate step 2
+    if (currentStep === 2) {
+      if (!formData.propertyType || !formData.systemSize) {
+        toast.error('Please select property type and system size');
+        return;
+      }
+    }
+    
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
@@ -78,8 +94,12 @@ const Contact = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Only handle Enter key on input fields, not buttons
+    const target = e.target as HTMLElement;
+    const isInputField = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
+    
     // Prevent Enter key from submitting form on steps 1 and 2
-    if (e.key === 'Enter' && currentStep < totalSteps) {
+    if (e.key === 'Enter' && currentStep < totalSteps && isInputField) {
       e.preventDefault();
       handleNext();
     }

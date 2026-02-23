@@ -14,13 +14,13 @@ const About = () => {
             <div className="space-y-6">
               <Badge className="bg-primary text-primary-foreground mb-4">ESTABLISHED 2010</Badge>
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-                Pioneering Solar Energy in the Pink City
+                Pioneering Solar Energy in the Rajasthan
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Seth sawaliya Solar Company was founded with a single vision: to make clean, sustainable energy accessible to every household and business in Jaipur. With over a decade of experience, we have grown from a small team of enthusiasts to one of Rajasthan's leading solar EPC providers.
+                Seth Sawaliya Enterprises was founded with a single vision: to make clean, sustainable energy accessible to every household and business in Rajasthan. With over a decade of experience, we have grown from a small team of enthusiasts to one of Rajasthan's leading solar EPC providers.
               </p>
               <p className="text-muted-foreground">
-                We believe that the future of energy is decentralized and renewable. Our team combines technical expertise with deep local knowledge to deliver solar systems that are perfectly optimized for Jaipur's unique climatic conditions.
+                We believe that the future of energy is decentralized and renewable. Our team combines technical expertise with deep local knowledge to deliver solar systems that are perfectly optimized for Rajasthan's unique climatic conditions.
               </p>
               <Button asChild size="lg">
                 <Link to="/contact">Join the Revolution</Link>
@@ -65,7 +65,7 @@ const About = () => {
                 </div>
                 <h3 className="text-xl font-bold">Our Vision</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  To be Jaipur's most preferred renewable energy partner, known for innovation, reliability, and our commitment to a greener planet.
+                  To be Rajasthan's most preferred renewable energy partner, known for innovation, reliability, and our commitment to a greener planet.
                 </p>
               </CardContent>
             </Card>
@@ -96,10 +96,10 @@ const About = () => {
                 />
             </div>
             <div className="space-y-8 order-1 md:order-2">
-              <h2 className="text-3xl font-bold">Why Seth sawaliya Solar?</h2>
+              <h2 className="text-3xl font-bold">Why Seth sawaliya Enterprises?</h2>
               <div className="space-y-6">
                 {[
-                  { title: 'Local Expertise', desc: 'Deep understanding of Jaipur\'s grid infrastructure and subsidy processes.' },
+                  { title: 'Local Expertise', desc: 'Deep understanding of Rajasthan\'s grid infrastructure and subsidy processes.' },
                   { title: 'Top-Tier Components', desc: 'We only use Tier-1 solar modules and premium inverters for maximum longevity.' },
                   { title: 'Expert Engineering', desc: 'Our designs are optimized for maximum generation based on specific site shadows.' },
                   { title: 'Unmatched Support', desc: 'Prompt after-sales service and remote monitoring for your peace of mind.' }

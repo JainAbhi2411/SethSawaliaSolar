@@ -384,10 +384,10 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 shrink-0 text-secondary" /> 
                   <a 
-                    href="tel:+919928567308" 
+                    href="tel:+919928566308" 
                     className="hover:text-secondary transition-colors"
                   >
-                    +91-9928567308
+                    +91-9928566308
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
@@ -407,7 +407,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="pt-6 md:pt-8 border-t border-background/20">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/60">
               <p className="text-center md:text-left">
-                © 2026 Seth sawaliya Solar Company. All rights reserved.
+                © 2026 Seth sawaliya Enterprises. All rights reserved.
               </p>
               <div className="flex flex-wrap justify-center gap-4 md:gap-6">
                 <Link to="/about" className="hover:text-secondary transition-colors">

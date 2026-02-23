@@ -333,7 +333,7 @@ const Home = () => {
               <span className="text-sm font-semibold text-primary">Why Go Solar?</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-black">
-              Why Choose Solar in <span className="text-primary">Jaipur</span>?
+              Why Choose Solar in <span className="text-primary">Rajasthan</span>?
             </h2>
             <p className="text-lg text-muted-foreground">
               Jaipur receives over 300 sunny days a year, making it one of the best locations for solar energy in India.

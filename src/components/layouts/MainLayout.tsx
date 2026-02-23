@@ -243,11 +243,11 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                   <Sun className="text-background w-5 h-5 md:w-7 md:h-7" />
                 </div>
                 <span className="font-black text-xl md:text-2xl">
-                  Seth Sawaliya <span className="text-secondary">Solar</span>
+                  Seth Sawaliya <span className="text-secondary">Enterprises</span>
                 </span>
               </div>
               <p className="text-sm text-background/80 leading-relaxed">
-                Leading provider of sustainable solar energy solutions in Jaipur. We specialize in residential, commercial, and maintenance services.
+                Leading provider of sustainable solar energy solutions in Rajasthan. We specialize in residential, commercial, and maintenance services.
               </p>
               
               {/* Social Media Links */}

@@ -106,7 +106,7 @@ const Home = () => {
               </h1>
               
               <p className="text-xl md:text-2xl text-background/90 leading-relaxed">
-                Join Jaipur's solar revolution. Save up to <span className="font-bold text-secondary">90% on electricity bills</span> while protecting our planet.
+                Join Rajasthan's solar revolution. Save up to <span className="font-bold text-secondary">90% on electricity bills</span> while protecting our planet.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center md:items-start gap-4 pt-4">

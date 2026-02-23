@@ -68,7 +68,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 <Mail className="w-4 h-4 mr-2" /> enterprisessethsawaliya@gmail.com
               </a>
               <span className="flex items-center">
-                <MapPin className="w-4 h-4 mr-2" /> Jaipur, Rajasthan
+                <MapPin className="w-4 h-4 mr-2" /> Rajasthan
               </span>
             </div>
             <div className="flex items-center space-x-4">
@@ -88,7 +88,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
               <Sun className="text-background w-5 h-5 md:w-7 md:h-7" />
             </div>
             <span className="font-black text-lg md:text-2xl tracking-tight">
-              Seth Sawaliya <span className="text-secondary hidden sm:inline">Solar</span>
+              Seth Sawaliya <span className="text-secondary hidden sm:inline">Enterprises</span>
             </span>
           </Link>
 
